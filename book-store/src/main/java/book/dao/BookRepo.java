@@ -7,5 +7,6 @@ import book.model.Book;
 public interface BookRepo extends JpaRepository<Book,String>
 {
 	public Book findByName(String name);
+	
 
 }

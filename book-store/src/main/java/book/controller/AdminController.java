@@ -19,9 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import book.model.Book;
-import book.model.Sales;
+import book.model.Sale;
 import book.service.BookService;
-import book.service.SalesService;
+import book.service.SaleService;
 import book.service.UserService;
 
 
@@ -35,7 +35,7 @@ public class AdminController
 	UserService userService;
 	
 	@Autowired 
-	SalesService salesService;
+	SaleService saleService;
 	
 	public static String uploadDirectory = System.getProperty("user.dir")+"/src/main/resources/static/uploads";
 	
@@ -55,26 +55,40 @@ public class AdminController
 		return mv;
 	}
 	
-	@RequestMapping("/delete/{name}")
-	public String deleteBook(@PathVariable("name") String name)
+	@PostMapping("/delete/{name}")
+	public ModelAndView deleteBook(@PathVariable("name") String name)
 	{
-		bookService.deleteBook(name);
+		ModelAndView mv=new ModelAndView("home");
 		
-		return "home";
+		Book book=bookService.getBook(name);
+		
+		String fileName=book.getFileName(); 
+		
+		Path fileToDeletePath = Paths.get(uploadDirectory,fileName);
+	    try {
+			Files.delete(fileToDeletePath);
+			bookService.deleteBook(book.getName());
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("error");
+		}
+		
+		
+		return mv;
 	}
 	
 	@GetMapping("/sales")
-	public ModelAndView getSales()
+	public ModelAndView getSale()
 	{
-		List<Sales> sales=salesService.getSales();
+		List<Sale> sales=saleService.getSale();
 		int totalSale=0;
-		for(Sales sale: sales)
+		for(Sale sale: sales)
 		{
-			totalSale=totalSale+sale.getBook().getPrice();
+			totalSale=totalSale+sale.getPrice();
 		}		
 		
 		ModelAndView mv=new ModelAndView("sales");
-		mv.addObject("sales",salesService.getSales());
+		mv.addObject("sales",saleService.getSale());
 		mv.addObject("totalSale",totalSale);
 		return mv;
 	}

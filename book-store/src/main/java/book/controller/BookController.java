@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import book.model.Sales;
+import book.model.Book;
+import book.model.Sale;
 import book.model.User;
 import book.service.BookService;
-import book.service.SalesService;
+import book.service.SaleService;
 import book.service.UserService;
 
 @Controller
@@ -27,7 +28,7 @@ public class BookController
 	BookService bookService;
 	
 	@Autowired
-	SalesService salesService;
+	SaleService saleService;
 	
 	@RequestMapping("/login")
 	public String login()
@@ -78,9 +79,9 @@ public class BookController
 	@RequestMapping("/buy/{name}")
 	public String buyBook(@PathVariable("name") String name)
 	{
+		Book book=bookService.getBook(name);
 		
-		
-		salesService.addSale(new Sales(bookService.getBook(name)));
+		saleService.addSale(new Sale(book.getName(),book.getAuthor(),book.getPrice()));
 		return "test";
 	}
 

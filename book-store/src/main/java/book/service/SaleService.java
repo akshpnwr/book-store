@@ -5,21 +5,21 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import book.dao.SalesRepo;
-import book.model.Sales;
+import book.dao.SaleRepo;
+import book.model.Sale;
 
 @Service
-public class SalesService
+public class SaleService
 {
 	@Autowired
-	private SalesRepo repo;
+	private SaleRepo repo;
 	
-	public void addSale(Sales sales)
+	public void addSale(Sale sale)
 	{
-		repo.save(sales);
+		repo.save(sale);
 	}
 	
-	public List<Sales> getSales()
+	public List<Sale> getSale()
 	{
 		return repo.findAll();
 	}
