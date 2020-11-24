@@ -37,7 +37,11 @@
       
         <td><img th:src="@{'uploads/'+${book.fileName}}" height="170" width="200" class="img-thumbnail"/></td>
         <td th:text="${book.name}"></td>
-		<td><a th:href="@{'/delete/'+${book.name}}">Delete</a></td>
+		<td>
+		<form class="form-inline my-2 my-lg-0" action="/logout" th:action="@{'/delete/'+${book.name}}"  method="post">
+      		<button class="btn btn-dark" type="submit">Delete</button>
+    	</form>
+    	</td>
     </tr>
 
 </table>
