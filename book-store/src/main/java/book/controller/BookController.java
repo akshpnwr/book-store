@@ -1,7 +1,5 @@
 package book.controller;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +27,12 @@ public class BookController
 	
 	@Autowired
 	SaleService saleService;
+	
+	@RequestMapping("/")
+	public String index()
+	{
+		return "home";
+	}
 	
 	@RequestMapping("/login")
 	public String login()
