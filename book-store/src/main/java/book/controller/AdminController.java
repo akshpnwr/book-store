@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,6 +45,37 @@ public class AdminController
 	public String addBook()
 	{
 		return "addBook";
+	}
+	
+	@GetMapping("/update")
+	public ModelAndView update()
+	{
+		ModelAndView mv=new ModelAndView("update");
+	
+		mv.addObject("books",bookService.getBooks());
+
+		return mv;
+	}
+	
+	@PostMapping("/update/{name}")
+	public ModelAndView updateBook(@PathVariable String name)
+	{
+		ModelAndView mv=new ModelAndView("update1");
+		
+		mv.addObject("book",bookService.getBook(name));
+
+		return mv;
+	}
+	
+	@PostMapping("/update1")
+	public ModelAndView update1Book(Book book)
+	{
+		ModelAndView mv=new ModelAndView("home");
+		
+		bookService.deleteBook(book.getName());
+		bookService.addBook(book);
+		
+		return mv;
 	}
 	
 	@GetMapping("/delete")
